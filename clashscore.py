@@ -20,12 +20,11 @@ def atomCount(chain):
         atoms += 1
     return atoms
 
-def numberOfClashes2Res(res1, res2,threshold):
+def numberOfClashes2Res(res1, res2, threshold):
     clashes = 0
     for atom1 in res1.get_atoms():
         for atom2 in res2.get_atoms():
-            if not ((atom1.name == "O3'" and atom2.name == "P") or (atom2.name == "O3'" and atom1.name == "P")):
-                if (atom1-atom2)<(radii[atom1.element] + radii[atom2.element] - threshold):
+            if (atom1-atom2)<=(radii[atom1.element] + radii[atom2.element] - threshold):
                     clashes+=1
     return clashes
 
@@ -47,8 +46,8 @@ def clashScore(PDBFile, threshold, chain_id, model_id):
         else:
             chain = model[chain_id]
         for i, residue in enumerate(chain):
-            for j in range(i+1, len(chain)):
-                clashes += numberOfClashes2Res(chain[i+1], chain[j+1],threshold)
+            for j in range(i+3, len(chain)):
+                clashes += numberOfClashes2Res(chain[i+1], chain[j+1], threshold)
         return 1000*(clashes/atomCount(chain))
     except FileNotFoundError:
         print("Error! File not found. Please make sure that filename and path to file are correct.")

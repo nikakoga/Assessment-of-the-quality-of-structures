@@ -25,11 +25,11 @@ def numberOfClashes2Res(res1, res2,threshold):
     for atom1 in res1.get_atoms():
         for atom2 in res2.get_atoms():
             if not ((atom1.name == "O3'" and atom2.name == "P") or (atom2.name == "O3'" and atom1.name == "P")):
-                if (atom1-atom2)<(radii[atom1.element]+radii[atom2.element] - threshold):
+                if (atom1-atom2)<(radii[atom1.element] + radii[atom2.element] - threshold):
                     clashes+=1
     return clashes
 
-def clashScore(PDBFile, threshold, chain_id, model_id, output):
+def clashScore(PDBFile, threshold, chain_id, model_id):
     clashes = 0
     parser = PDBParser()
     try:
@@ -66,7 +66,7 @@ if __name__ == "__main__":
     parser.add_argument("-m","--model",help="Model number from PDB file. If not provided, program takes first model from file.")
     parser.add_argument("-o","--output",help="Output .txt file in which the clashscore will be saved. If not provided, clashscore will not be saved to your computer.")
     args = parser.parse_args()
-    score = clashScore(args.input, args.threshold, args.chain, args.model, args.output)
+    score = clashScore(args.input, args.threshold, args.chain, args.model)
     if args.output:
         if not args.output.endswith(".txt"):
             args.output += ".txt"

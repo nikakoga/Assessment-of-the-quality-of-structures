@@ -46,7 +46,7 @@ def clashScore(PDBFile, threshold, chain_id, model_id):
         else:
             chain = model[chain_id]
         for i, residue in enumerate(chain):
-            for j in range(i+3, len(chain)):
+            for j in range(i+2, len(chain)):
                 clashes += numberOfClashes2Res(chain[i+1], chain[j+1], threshold)
         return 1000*(clashes/atomCount(chain))
     except FileNotFoundError:
